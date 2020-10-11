@@ -16,8 +16,10 @@ class Park : View {
     private val mainFrame = RectF()
     //ширина линии
     private val strokeWidth = 30f
+    //ширина линии стоянки
+    private val strokeStandWidth = 15f
     //количество стоянок
-    private val standsCount = 7
+    private val standsCount = 20
     //длина линии стоянки
     private val parkLength = 300f
     //машинка
@@ -57,6 +59,7 @@ class Park : View {
     }
 
     private fun drawStands(canvas: Canvas?){
+        mPaint.strokeWidth = strokeStandWidth
         //рисуем стоянки
         if (canvas != null){
             //количество стоянок с левой стороны
@@ -68,13 +71,17 @@ class Park : View {
             //получаем координаты стоянок
             var startXPos = 0f
             for (i in 1..leftCountStands){
-                val coordinateY = ((height/leftCountStands)*i.toFloat())
-                stands.add(Stand(startXPos, coordinateY))
+                if (i + rightCountStands != standsCount) {
+                    val coordinateY = ((height / leftCountStands) * i.toFloat())
+                    stands.add(Stand(startXPos, coordinateY))
+                }
             }
             startXPos = width.toFloat()
             for (i in 1..rightCountStands){
-                val coordinateY = ((height/rightCountStands)*i.toFloat())
-                stands.add(Stand(startXPos, coordinateY))
+                if(i + leftCountStands != standsCount) {
+                    val coordinateY = ((height / rightCountStands) * i.toFloat())
+                    stands.add(Stand(startXPos, coordinateY))
+                }
             }
             //рисуем стоянки по координатам
             for (stand in stands){
